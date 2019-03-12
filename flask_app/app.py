@@ -414,7 +414,7 @@ def aggregate():
             popularity (dict): same format as acousticness"""
     vals = request.get_json()
     if vals.get("key") != SECRET_KEY:
-        return str(request.data)
+        return str(vals.get("key"))
     df = pd.read_json(vals.get("songs"))
     for i, c in enumerate(list(temp_df)):
         mean_values[c] = {
