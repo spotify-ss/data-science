@@ -50,7 +50,7 @@ __Data Contraints:__
         "acousticness": {
             "mean": [mean acousticness float value for all tracks],
             "stddev": [mean acousticness float value for all tracks],
-            "index": [column index integer value],
+            "index": [column index integer value]
         },
         "danceability": ...,
         "duration_ms": ...,
@@ -170,7 +170,7 @@ __Data Contraints:__
         "acousticness": {
             "mean": [mean acousticness float value for all tracks],
             "stddev": [mean acousticness float value for all tracks],
-            "index": [column index integer value],
+            "index": [column index integer value]
         },
         "danceability": ...,
         "duration_ms": ...,
