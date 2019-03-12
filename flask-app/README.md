@@ -8,6 +8,7 @@
 | `POST` | [`/api/v1.0/closest/target/<page-number>`](#Closest-(values)) | Get similar songs to input values. |
 | `POST` | [`/api/v1.0/user/fit`](#User-(fit)) | Return model values based on user preferences. |
 | `POST` | [`/api/v1.0/user/predict/<page-number>`](#User-(predict)) | Return songs based on input user model. |
+| `POST` | [`/api/v1.0/aggregate`](#Aggregate) | Return aggregate values for all songs. |
 
 ## Closest (song)
 
@@ -297,7 +298,6 @@ __Data Contraints:__
 {
     "pos_songs": [
         {
-            "track_id": "[valid Spotify track ID]",
             "acousticness": [float value],
             "danceability": [float value],
             "duration_ms": [float value],
@@ -317,7 +317,6 @@ __Data Contraints:__
     ],
     "neg_songs": [
         {
-            "track_id": "[valid Spotify track ID]",
             "acousticness": [float value],
             "danceability": [float value],
             "duration_ms": [float value],
@@ -368,7 +367,6 @@ __Data Example:__
 {
     "pos_songs": [
         {
-            "track_id": "049RxG2laEl9U1PGYeIqLV",
             "acousticness": 8.11e-05,
             "danceability": 0.813,
             "duration_ms": 132742,
@@ -388,7 +386,6 @@ __Data Example:__
     ],
     "neg_songs": [
         {
-            "track_id": "1tHDG53xJNGsItRA3vfVgs",
             "acousticness": 0.0244,
             "danceability": 0.846,
             "duration_ms": 214800,
@@ -614,3 +611,90 @@ __Success Response:__
     ```
 - __Notes:__
   - Returns 100 tracks per page.
+
+## Aggregate
+
+__URL:__ `/api/v1.0/aggregate`
+
+__Method:__ `POST`
+
+__Auth Required:__ NO
+
+__Data Contraints:__
+
+```
+{
+    "songs": [
+        {
+            "acousticness": [float value],
+            "danceability": [float value],
+            "duration_ms": [float value],
+            "energy": [float value],
+            "instrumentalness": [float value],
+            "key": [float value],
+            "liveness": [float value],
+            "loudness": [float value],
+            "mode": [float value],
+            "speechiness": [float value],
+            "tempo": [float value],
+            "time_signature": [float value],
+            "valence": [float value],
+            "popularity": [float value]
+        },
+        ...
+    ]
+}
+```
+
+__Data Example:__
+
+```
+{
+    "songs": [
+        {
+            "acousticness": 8.11e-05,
+            "danceability": 0.813,
+            "duration_ms": 132742,
+            "energy": 0.731,
+            "instrumentalness": 0.91,
+            "key": 11,
+            "liveness": 0.0727,
+            "loudness": -8.932,
+            "mode": 1,
+            "speechiness": 0.0697,
+            "tempo": 124.031,
+            "time_signature": 4,
+            "valence": 0.944,
+            "popularity": 7
+        },
+        ...
+    ]
+}
+```
+
+__Success Response:__
+
+- __Code:__ 200 Ok
+- __Content Example:__
+    ```
+    "mean_values": {
+        "acousticness": {
+            "mean": [float value],
+            "stddev": [float value],
+            "index": [integer value],
+        },
+        "danceability": ...,
+        "duration_ms": ...,
+        "energy": ...,
+        "instrumentalness": ...,
+        "key": ...,
+        "liveness": ...,
+        "loudness": ...,
+        "mode": ...,
+        "speechiness": ...,
+        "tempo": ...,
+        "time_signature": ...,
+        "valence": ...,
+        "popularity": ...
+    }
+    ```

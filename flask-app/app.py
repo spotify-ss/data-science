@@ -351,5 +351,62 @@ def predict_user(page_number):
     return dist.to_json()
 
 
+@app.route("/api/v1.0/aggregate", methods=["POST"])
+def predict_user(page_number):
+    """Flask POST method that creates aggregate values for entire song
+            database.
+
+    URL:
+        /api/v1.0/aggregate
+    POST Args:
+        songs (str-json): list of song information as dictionaries
+            acousticness (float)
+            danceability (float)
+            duration_ms (float)
+            energy (float)
+            instrumentalness (float)
+            key (float)
+            liveness (float)
+            loudness (float)
+            mode (float)
+            speechiness (float)
+            tempo (float)
+            time_signature (float)
+            valence (float)
+            popularity (float)
+    Args:
+        None
+    Returns:
+        (str-json): dictionary of precomputed aggregate song data
+            acousticness (dict): dictionary of values associated with
+                acousticness
+                mean (float)
+                stddev (float)
+                index (int)
+            danceability (dict): same format as acousticness
+            duration_ms (dict): same format as acousticness
+            energy (dict): same format as acousticness
+            instrumentalness (dict): same format as acousticness
+            key (dict): same format as acousticness
+            liveness (dict): same format as acousticness
+            loudness (dict): same format as acousticness
+            mode (dict): same format as acousticness
+            speechiness (dict): same format as acousticness
+            tempo (dict): same format as acousticness
+            time_signature (dict): same format as acousticness
+            valence (dict): same format as acousticness
+            popularity (dict): same format as acousticness"""
+    df = pd.read_json(request.values.get("songs"))
+    for i, c in enumerate(list(temp_df)):
+        mean_values[c] = {
+            "mean": float(temp_df[c].mean()),
+            "stddev": float(temp_df[c].std()),
+            "min": float(temp_df[c].min()),
+            "max": float(temp_df[c].max()),
+            "index": i
+        }
+    return json.dumps(mean_values)
+
+
 if __name__ == "__main__":
     app.run()

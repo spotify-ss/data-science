@@ -40,43 +40,6 @@ Base.metadata.drop_all(engine)
 
 temp_df = pd.read_csv("SpotifyAudioFeaturesNov2018.csv")
 temp_df = temp_df.drop_duplicates(subset="track_id")
-
-import_songs = text("""INSERT INTO songs(
-        track_id,
-        artist_name,
-        track_name,
-        acousticness,
-        danceability,
-        duration_ms,
-        energy,
-        instrumentalness,
-        key,
-        liveness,
-        loudness,
-        mode,
-        speechiness,
-        tempo,
-        time_signature,
-        valence,
-        popularity
-    ) VALUES(
-        :track_id,
-        :artist_name,
-        :track_name,
-        :acousticness,
-        :danceability,
-        :duration_ms,
-        :energy,
-        :instrumentalness,
-        :key,
-        :liveness,
-        :loudness,
-        :mode,
-        :speechiness,
-        :tempo,
-        :time_signature,
-        :valence,
-        :popularity)""")
 conn = engine.connect()
 temp_df.to_sql('songs', con=engine)
 print(list(engine.execute("SELECT COUNT(*) FROM songs")))
