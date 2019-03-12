@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask.json import jsonify, loads
 from sklearn.linear_model import LogisticRegression
 from decouple import config
-
+import json
 import pandas as pd
 import numpy as np
 
@@ -60,13 +60,14 @@ def closest_songs(track_id, page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
                 song
             '[track_id]': [distance (float)]"""
-    if request.values.get("songs") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    df = pd.read_json(request.values.get("songs"))
+    df = pd.read_json(json.dumps(vals.get("songs")))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
     labels = []
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = vals.get("mean_values")
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
@@ -141,17 +142,20 @@ def closest_songs_by_val(page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
                 song
             '[track_id]': [distance (float)]"""
-    if request.values.get("songs") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    df = pd.read_json(request.values.get("songs"))
+    df = pd.read_json(json.dumps(vals.get("songs")))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
+    target = pd.read_json(json.dumps(vals.get("target")))
     labels = []
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = vals.get("mean_values")
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
+        target[v] = (target[v] - mean_values[v]["mean"]) / \
+            mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
-    target = pd.read_json(request.values.get("target"))
     dist = (((target.iloc[0] - df)**2).sum(axis=1)**0.5).sort_values()
     page_number = int(page_number)
     dist = dist.iloc[100*page_number:100*page_number+100]
@@ -240,18 +244,19 @@ def fit_user():
             valence (list): same as acousticness
             popularity (list): same as acousticness
             intercept (float)"""
-    if request.values.get("songs") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    pos_songs = pd.read_json(request.values.get("pos_songs"))
+    pos_songs = pd.read_json(json.dumps(vals.get("pos_songs")))
     pos_songs["value"] = 1
-    neg_songs = pd.read_json(request.values.get("neg_songs"))
+    neg_songs = pd.read_json(json.dumps(vals.get("neg_songs")))
     neg_songs["value"] = 0
     X = pd.concat([pos_songs, neg_songs])
     Y = X["value"]
     cols = [c for c in X if c != "value"]
     X = X[cols]
     labels = []
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = vals.get("mean_values")
     for v in mean_values:
         X[v] = (X[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
@@ -335,15 +340,16 @@ def predict_user(page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
             song
             '[track_id]': [distance (float)]"""
-    if request.values.get("songs") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    df = pd.read_json(request.values.get("songs"))
+    df = pd.read_json(json.dumps(vals.get("songs")))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = vals.get("mean_values")
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
-    model_vals = loads(request.values.get("model"))
+    model_vals = request.values.get("model")
     log_reg = LogisticRegression(
         random_state=0,
         solver='saga'
@@ -389,9 +395,11 @@ def aggregate():
     Returns:
         (str-json): dictionary of precomputed aggregate song data
             acousticness (dict): dictionary of values associated with
-                acousticness
+                    acousticness
                 mean (float)
                 stddev (float)
+                min (float)
+                max (float)
                 index (int)
             danceability (dict): same format as acousticness
             duration_ms (dict): same format as acousticness
@@ -406,15 +414,17 @@ def aggregate():
             time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness"""
-    if request.values.get("songs") != SECRET_KEY:
-        return "ERROR - INCORRECT SECRET KEY"
-    df = pd.read_json(request.values.get("songs"))
-    for i, c in enumerate(list(temp_df)):
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
+        return str(vals.get("key"))
+    df = pd.read_json(json.dumps(vals.get("songs")))
+    mean_values = {}
+    for i, c in enumerate(list(df)):
         mean_values[c] = {
-            "mean": float(temp_df[c].mean()),
-            "stddev": float(temp_df[c].std()),
-            "min": float(temp_df[c].min()),
-            "max": float(temp_df[c].max()),
+            "mean": float(df[c].mean()),
+            "stddev": float(df[c].std()),
+            "min": float(df[c].min()),
+            "max": float(df[c].max()),
             "index": i
         }
     return json.dumps(mean_values)

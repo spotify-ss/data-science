@@ -681,7 +681,9 @@ __Success Response:__
         "acousticness": {
             "mean": [float value],
             "stddev": [float value],
-            "index": [integer value],
+            "min": [float value],
+            "max": [float value],
+            "index": [integer value]
         },
         "danceability": ...,
         "duration_ms": ...,
