@@ -1,11 +1,13 @@
 from flask import Flask, request
 from flask.json import jsonify, loads
 from sklearn.linear_model import LogisticRegression
+from decouple import config
 
 import pandas as pd
 import numpy as np
 
 app = Flask(__name__)
+SECRET_KEY = config("DATA-SCIENCE-KEY")
 
 
 @app.route("/api/v1.0/closest/<track_id>/<page_number>", methods=["POST"])
@@ -58,6 +60,8 @@ def closest_songs(track_id, page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
                 song
             '[track_id]': [distance (float)]"""
+    if request.values.get("songs") != SECRET_KEY:
+        return "ERROR - INCORRECT SECRET KEY"
     df = pd.read_json(request.values.get("songs"))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
@@ -137,6 +141,8 @@ def closest_songs_by_val(page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
                 song
             '[track_id]': [distance (float)]"""
+    if request.values.get("songs") != SECRET_KEY:
+        return "ERROR - INCORRECT SECRET KEY"
     df = pd.read_json(request.values.get("songs"))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
@@ -234,6 +240,8 @@ def fit_user():
             valence (list): same as acousticness
             popularity (list): same as acousticness
             intercept (float)"""
+    if request.values.get("songs") != SECRET_KEY:
+        return "ERROR - INCORRECT SECRET KEY"
     pos_songs = pd.read_json(request.values.get("pos_songs"))
     pos_songs["value"] = 1
     neg_songs = pd.read_json(request.values.get("neg_songs"))
@@ -327,6 +335,8 @@ def predict_user(page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
             song
             '[track_id]': [distance (float)]"""
+    if request.values.get("songs") != SECRET_KEY:
+        return "ERROR - INCORRECT SECRET KEY"
     df = pd.read_json(request.values.get("songs"))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
@@ -396,6 +406,8 @@ def aggregate():
             time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness"""
+    if request.values.get("songs") != SECRET_KEY:
+        return "ERROR - INCORRECT SECRET KEY"
     df = pd.read_json(request.values.get("songs"))
     for i, c in enumerate(list(temp_df)):
         mean_values[c] = {
