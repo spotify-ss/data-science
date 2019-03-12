@@ -408,8 +408,8 @@ def aggregate():
             time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness"""
-    if request.values.get("key") != SECRET_KEY:
-        return request.values.get("key") + "   " + SECRET_KEY
+    if request.form.get("key") != SECRET_KEY:
+        return request.form.get("key") + "   " + SECRET_KEY
     df = pd.read_json(request.values.get("songs"))
     for i, c in enumerate(list(temp_df)):
         mean_values[c] = {
