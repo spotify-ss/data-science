@@ -2,6 +2,19 @@
 
 Please include a summary of the change and a link to which issue is fixed. Please also include relevant motivation and context. List any dependencies that are required for this change.
 
+
+
+Data science backend and testing scripts. Currently allows for:
+
+- Closest:
+  - By song
+  - By parameters
+- User:
+  - Fit user preference model.
+  - Predict based on user preference model.
+
+Read README.md in flask-app directory for API instructions.
+
 Fixes # (issue)
 
 ## Type of change
