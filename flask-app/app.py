@@ -261,7 +261,8 @@ def fit_user():
 
 @app.route("/api/v1.0/user/predict/<page_number>", methods=["POST"])
 def predict_user(page_number):
-    """Flask POST method that finds closest songs based on normalized distance.
+    """Flask POST method that finds closest songs based on precomputed logistic
+            regression model.
 
     URL:
         /api/v1.0/closest/<track_id>/<page_number>
