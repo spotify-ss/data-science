@@ -352,7 +352,7 @@ def predict_user(page_number):
 
 
 @app.route("/api/v1.0/aggregate", methods=["POST"])
-def predict_user(page_number):
+def aggregate():
     """Flask POST method that creates aggregate values for entire song
             database.
 
