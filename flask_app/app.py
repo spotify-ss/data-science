@@ -389,9 +389,11 @@ def aggregate():
     Returns:
         (str-json): dictionary of precomputed aggregate song data
             acousticness (dict): dictionary of values associated with
-                acousticness
+                    acousticness
                 mean (float)
                 stddev (float)
+                min (float)
+                max (float)
                 index (int)
             danceability (dict): same format as acousticness
             duration_ms (dict): same format as acousticness
@@ -407,7 +409,7 @@ def aggregate():
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness"""
     if request.values.get("key") != SECRET_KEY:
-        return "ERROR - INCORRECT SECRET KEY"
+        return SECRET_KEY
     df = pd.read_json(request.values.get("songs"))
     for i, c in enumerate(list(temp_df)):
         mean_values[c] = {
