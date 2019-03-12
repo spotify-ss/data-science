@@ -406,7 +406,3 @@ def predict_user(page_number):
             "index": i
         }
     return json.dumps(mean_values)
-
-
-if __name__ == "__main__":
-    app.run()
