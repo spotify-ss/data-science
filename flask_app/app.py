@@ -60,13 +60,14 @@ def closest_songs(track_id, page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
                 song
             '[track_id]': [distance (float)]"""
-    if request.values.get("key") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    df = pd.read_json(request.values.get("songs"))
+    df = pd.read_json(vals.get("songs"))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
     labels = []
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = loads(vals.get("mean_values"))
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
@@ -141,17 +142,18 @@ def closest_songs_by_val(page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
                 song
             '[track_id]': [distance (float)]"""
-    if request.values.get("key") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    df = pd.read_json(request.values.get("songs"))
+    df = pd.read_json(vals.get("songs"))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
     labels = []
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = loads(vals.get("mean_values"))
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
-    target = pd.read_json(request.values.get("target"))
+    target = pd.read_json(vals.get("target"))
     dist = (((target.iloc[0] - df)**2).sum(axis=1)**0.5).sort_values()
     page_number = int(page_number)
     dist = dist.iloc[100*page_number:100*page_number+100]
@@ -240,18 +242,19 @@ def fit_user():
             valence (list): same as acousticness
             popularity (list): same as acousticness
             intercept (float)"""
-    if request.values.get("key") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    pos_songs = pd.read_json(request.values.get("pos_songs"))
+    pos_songs = pd.read_json(vals.get("pos_songs"))
     pos_songs["value"] = 1
-    neg_songs = pd.read_json(request.values.get("neg_songs"))
+    neg_songs = pd.read_json(vals.get("neg_songs"))
     neg_songs["value"] = 0
     X = pd.concat([pos_songs, neg_songs])
     Y = X["value"]
     cols = [c for c in X if c != "value"]
     X = X[cols]
     labels = []
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = loads(vals.get("mean_values"))
     for v in mean_values:
         X[v] = (X[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
@@ -335,12 +338,13 @@ def predict_user(page_number):
         (str-json) JSON dictionary of track ids and corresponding distance to
             song
             '[track_id]': [distance (float)]"""
-    if request.values.get("key") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return "ERROR - INCORRECT SECRET KEY"
-    df = pd.read_json(request.values.get("songs"))
+    df = pd.read_json(vals.get("songs"))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
-    mean_values = loads(request.values.get("mean_values"))
+    mean_values = loads(vals.get("mean_values"))
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
     model_vals = loads(request.values.get("model"))
@@ -408,9 +412,10 @@ def aggregate():
             time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness"""
-    if request.form.get("key") != SECRET_KEY:
+    vals = request.get_json()
+    if vals.get("key") != SECRET_KEY:
         return str(request.data)
-    df = pd.read_json(request.values.get("songs"))
+    df = pd.read_json(vals.get("songs"))
     for i, c in enumerate(list(temp_df)):
         mean_values[c] = {
             "mean": float(temp_df[c].mean()),
