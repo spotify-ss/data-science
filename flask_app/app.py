@@ -65,7 +65,20 @@ def closest_songs(track_id, page_number):
         return "ERROR - INCORRECT SECRET KEY"
     df = pd.read_json(json.dumps(vals.get("songs")))
     df.index = df["track_id"]
-    df = df.drop(columns=["track_id"])
+    df = df[["acousticness",
+             "danceability",
+             "duration_ms",
+             "energy",
+             "instrumentalness",
+             "key",
+             "liveness",
+             "loudness",
+             "mode",
+             "speechiness",
+             "tempo",
+             "time_signature",
+             "valence",
+             "popularity"]]
     labels = []
     mean_values = vals.get("mean_values")
     for v in mean_values:
@@ -147,7 +160,20 @@ def closest_songs_by_val(page_number):
         return "ERROR - INCORRECT SECRET KEY"
     df = pd.read_json(json.dumps(vals.get("songs")))
     df.index = df["track_id"]
-    df = df.drop(columns=["track_id"])
+    df = df[["acousticness",
+             "danceability",
+             "duration_ms",
+             "energy",
+             "instrumentalness",
+             "key",
+             "liveness",
+             "loudness",
+             "mode",
+             "speechiness",
+             "tempo",
+             "time_signature",
+             "valence",
+             "popularity"]]
     target = pd.read_json(json.dumps(vals.get("target")))
     labels = []
     mean_values = vals.get("mean_values")
@@ -253,7 +279,20 @@ def fit_user():
     neg_songs["value"] = 0
     X = pd.concat([pos_songs, neg_songs])
     Y = X["value"]
-    cols = [c for c in X if c != "value"]
+    cols = ["acousticness",
+            "danceability",
+            "duration_ms",
+            "energy",
+            "instrumentalness",
+            "key",
+            "liveness",
+            "loudness",
+            "mode",
+            "speechiness",
+            "tempo",
+            "time_signature",
+            "valence",
+            "popularity"]
     X = X[cols]
     labels = []
     mean_values = vals.get("mean_values")
@@ -345,7 +384,20 @@ def predict_user(page_number):
         return "ERROR - INCORRECT SECRET KEY"
     df = pd.read_json(json.dumps(vals.get("songs")))
     df.index = df["track_id"]
-    df = df.drop(columns=["track_id"])
+    df = df[["acousticness",
+             "danceability",
+             "duration_ms",
+             "energy",
+             "instrumentalness",
+             "key",
+             "liveness",
+             "loudness",
+             "mode",
+             "speechiness",
+             "tempo",
+             "time_signature",
+             "valence",
+             "popularity"]]
     mean_values = vals.get("mean_values")
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
