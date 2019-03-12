@@ -416,12 +416,12 @@ def aggregate():
     if vals.get("key") != SECRET_KEY:
         return str(vals.get("key"))
     df = pd.read_json(json.dumps(vals.get("songs")))
-    for i, c in enumerate(list(temp_df)):
+    for i, c in enumerate(list(df)):
         mean_values[c] = {
-            "mean": float(temp_df[c].mean()),
-            "stddev": float(temp_df[c].std()),
-            "min": float(temp_df[c].min()),
-            "max": float(temp_df[c].max()),
+            "mean": float(df[c].mean()),
+            "stddev": float(df[c].std()),
+            "min": float(df[c].min()),
+            "max": float(df[c].max()),
             "index": i
         }
     return json.dumps(mean_values)
