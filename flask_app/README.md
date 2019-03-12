@@ -26,6 +26,7 @@ __Data Contraints:__
 <page-number>: [page number to get]
 
 {
+    "key": "[valid secret key string]",
     "songs": [
         {
             "track_id": "[valid Spotify track ID]",
@@ -77,6 +78,7 @@ __Data Example:__
 <page-number>: 0
 
 {
+    "key": "SECRET_KEY_STRING",
     "songs": [
         {
             "track_id": "049RxG2laEl9U1PGYeIqLV",
@@ -147,6 +149,7 @@ __Data Contraints:__
 <page-number>: [page number to get]
 
 {
+    "key": "[valid secret key string]",
     "songs": [
         {
             "track_id": "[valid Spotify track ID]",
@@ -211,7 +214,7 @@ __Data Example:__
 <page-number>: 0
 
 {
-
+    "key": "SECRET_KEY_STRING",
     "songs": [
         {
             "track_id": "049RxG2laEl9U1PGYeIqLV",
@@ -296,6 +299,7 @@ __Data Contraints:__
 
 ```
 {
+    "key": "[valid secret key string]",
     "pos_songs": [
         {
             "acousticness": [float value],
@@ -365,6 +369,7 @@ __Data Example:__
 
 ```
 {
+    "key": "SECRET_KEY_STRING",
     "pos_songs": [
         {
             "acousticness": 8.11e-05,
@@ -467,6 +472,7 @@ __Data Contraints:__
 <page-number>: 0
 
 {
+    "key": "[valid secret key string]",
     "songs": [
         {
             "track_id": "[valid Spotify track ID]",
@@ -536,6 +542,7 @@ __Data Example:__
 <page-number>: [page number to get]
 
 {
+    "key": "SECRET_KEY_STRING",
     "songs": [
         {
             "track_id": "049RxG2laEl9U1PGYeIqLV",
@@ -624,6 +631,7 @@ __Data Contraints:__
 
 ```
 {
+    "key": "[valid secret key string]",
     "songs": [
         {
             "acousticness": [float value],
@@ -650,6 +658,7 @@ __Data Example:__
 
 ```
 {
+    "key": "SECRET_KEY_STRING",
     "songs": [
         {
             "acousticness": 8.11e-05,
