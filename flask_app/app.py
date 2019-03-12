@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask.json import jsonify, loads
 from sklearn.linear_model import LogisticRegression
 from decouple import config
+import json
 import pandas as pd
 import numpy as np
 
@@ -414,7 +415,7 @@ def aggregate():
     vals = request.get_json()
     if vals.get("key") != SECRET_KEY:
         return str(vals.get("key"))
-    df = pd.read_json(jsonify(vals.get("songs")))
+    df = pd.read_json(json.dumps(vals.get("songs")))
     for i, c in enumerate(list(temp_df)):
         mean_values[c] = {
             "mean": float(temp_df[c].mean()),
@@ -423,4 +424,4 @@ def aggregate():
             "max": float(temp_df[c].max()),
             "index": i
         }
-    return jsonify(mean_values)
+    return json.dumps(mean_values)
