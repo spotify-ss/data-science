@@ -148,12 +148,14 @@ def closest_songs_by_val(page_number):
     df = pd.read_json(json.dumps(vals.get("songs")))
     df.index = df["track_id"]
     df = df.drop(columns=["track_id"])
+    target = pd.read_json(json.dumps(vals.get("target")))
     labels = []
     mean_values = vals.get("mean_values")
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
+        target[v] = (target[v] - mean_values[v]["mean"]) / \
+            mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
-    target = pd.read_json(json.dumps(vals.get("target")))
     dist = (((target.iloc[0] - df)**2).sum(axis=1)**0.5).sort_values()
     page_number = int(page_number)
     dist = dist.iloc[100*page_number:100*page_number+100]
