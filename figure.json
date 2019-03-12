@@ -1,0 +1,64 @@
+{
+  "data": [
+    {
+      "fill": "toself",
+      "name": "Lactose",
+      "r": [
+        0.025100401606425706,
+        0.6054216867469879,
+        0.723,
+        0.0,
+        0.0824824824824825,
+        0.046997929606625265,
+        0.4598952728785557,
+        0.025100401606425706
+      ],
+      "theta": [
+        "acousticness",
+        "danceability",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "speechiness",
+        "tempo"
+      ],
+      "type": "scatterpolar"
+    },
+    {
+      "fill": "toself",
+      "name": "Same - Original mix",
+      "r": [
+        0.02951807228915663,
+        0.8032128514056226,
+        0.579,
+        0.912,
+        0.09949949949949952,
+        0.07256728778467908,
+        0.49204545909121816,
+        0.02951807228915663
+      ],
+      "theta": [
+        "acousticness",
+        "danceability",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "speechiness",
+        "tempo"
+      ],
+      "type": "scatterpolar"
+    }
+  ],
+  "layout": {
+    "polar": {
+      "radialaxis": {
+        "range": [
+          0,
+          1
+        ],
+        "visible": true
+      }
+    },
+    "showlegend": true
+  }
+}
