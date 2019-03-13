@@ -80,8 +80,24 @@ def closest_songs(track_id, page_number):
              "valence",
              "popularity"]]
     labels = []
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "key",
+        "liveness",
+        "loudness",
+        "mode",
+        "speechiness",
+        "tempo",
+        "time_signature",
+        "valence",
+        "popularity"
+    ]
     mean_values = vals.get("mean_values")
-    for v in mean_values:
+    for v in label_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
     dist = (((df.loc[track_id] - df)**2).sum(axis=1)**0.5).sort_values()
