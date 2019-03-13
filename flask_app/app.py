@@ -165,7 +165,7 @@ def closest_songs_by_val(page_number):
              "tempo",
              "valence",
              "popularity"]]
-    target = pd.read_json(json.dumps(vals.get("target")))
+    target = pd.read_json(json.dumps([vals.get("target")]))
     labels = []
     label_values = [
         "acousticness",
