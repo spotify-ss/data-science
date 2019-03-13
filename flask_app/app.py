@@ -181,7 +181,7 @@ def closest_songs_by_val(page_number):
         "popularity"
     ]
     mean_values = vals.get("mean_values")
-    for v in mean_values:
+    for v in label_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         target[v] = (target[v] - mean_values[v]["mean"]) / \
             mean_values[v]["stddev"]
@@ -279,7 +279,7 @@ def fit_user():
             "liveness",
             "loudness",
             "speechiness",
-            "time_signature",
+            "tempo",
             "valence",
             "popularity"]
     X = X[cols]
@@ -298,7 +298,7 @@ def fit_user():
         "popularity"
     ]
     mean_values = vals.get("mean_values")
-    for v in mean_values:
+    for v in label_values:
         X[v] = (X[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
     log_reg = LogisticRegression(
@@ -402,14 +402,14 @@ def predict_user(page_number):
         "valence",
         "popularity"
     ]
-    for v in mean_values:
+    for v in label_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
-    model_vals = request.values.get("model")
+    model_vals = vals.get("model")
     log_reg = LogisticRegression(
         random_state=0,
         solver='saga'
     )
-    log_reg.intercept_ = np.array(model_vals["intercept"]).reshape(1,)
+    log_reg.intercept_ = np.array([model_vals["intercept"]]).reshape(1,)
     coef = np.zeros((1, len([k for k in model_vals]) - 1))
     for key in model_vals:
         if key != "intercept":
