@@ -29,8 +29,10 @@ body {
 }
 </style>
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+    <div class="radarChart"></div>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
+    <script src="static/radarChart.js"></script>	
 
 <script>
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -112,6 +114,34 @@ d3.csv("/static/songs.csv", function(error, data) {
       });
 });
 
+</script>
+<script>
+/* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+      
+////////////////////////////////////////////////////////////// 
+//////////////////////// Set-Up ////////////////////////////// 
+////////////////////////////////////////////////////////////// 
+var margin = {top: 100, right: 100, bottom: 100, left: 100},
+  width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
+  height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+
+var color = d3.scale.ordinal()
+  .range(["#EDC951","#CC333F","#00A0B0"]);
+  
+var radarChartOptions = {
+  w: width,
+  h: height,
+  margin: margin,
+  maxValue: 0.5,
+  levels: 5,
+  roundStrokes: true,
+  color: color
+};
+      //Load the data and Call function to draw the Radar chart
+d3.json("static/snoopy.json", function(error, data){
+  
+  RadarChart(".radarChart", data, radarChartOptions);
+});
 </script>
 </body>
 </html>
