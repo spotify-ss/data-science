@@ -404,12 +404,11 @@ def predict_user(page_number):
     ]
     for v in label_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
-    model_vals = request.values.get("model")
+    model_vals = vals.get("model")
     log_reg = LogisticRegression(
         random_state=0,
         solver='saga'
     )
-    return json.dumps(model_vals)
     log_reg.intercept_ = np.array([model_vals["intercept"]]).reshape(1,)
     coef = np.zeros((1, len([k for k in model_vals]) - 1))
     for key in model_vals:
