@@ -409,6 +409,7 @@ def predict_user(page_number):
         random_state=0,
         solver='saga'
     )
+    return json.dumps(model_vals)
     log_reg.intercept_ = np.array([model_vals["intercept"]]).reshape(1,)
     coef = np.zeros((1, len([k for k in model_vals]) - 1))
     for key in model_vals:
