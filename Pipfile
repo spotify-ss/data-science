@@ -10,6 +10,8 @@ plotly = "*"
 flask = "*"
 pandas = "*"
 sklearn = "*"
+matplotlib = "==2.1.0"
+matplotlib-pyplot = "*"
 
 [requires]
 python_version = "3.6"
