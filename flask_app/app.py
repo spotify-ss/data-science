@@ -70,13 +70,10 @@ def closest_songs(track_id, page_number):
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     labels = []
@@ -86,13 +83,10 @@ def closest_songs(track_id, page_number):
         "duration_ms",
         "energy",
         "instrumentalness",
-        "key",
         "liveness",
         "loudness",
-        "mode",
         "speechiness",
         "tempo",
-        "time_signature",
         "valence",
         "popularity"
     ]
@@ -181,17 +175,27 @@ def closest_songs_by_val(page_number):
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     target = pd.read_json(json.dumps(vals.get("target")))
     labels = []
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+        "popularity"
+    ]
     mean_values = vals.get("mean_values")
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
@@ -300,17 +304,27 @@ def fit_user():
             "duration_ms",
             "energy",
             "instrumentalness",
-            "key",
             "liveness",
             "loudness",
-            "mode",
             "speechiness",
-            "tempo",
             "time_signature",
             "valence",
             "popularity"]
     X = X[cols]
     labels = []
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+        "popularity"
+    ]
     mean_values = vals.get("mean_values")
     for v in mean_values:
         X[v] = (X[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
@@ -405,16 +419,26 @@ def predict_user(page_number):
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     mean_values = vals.get("mean_values")
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+        "popularity"
+    ]
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
     model_vals = request.values.get("model")
@@ -491,13 +515,10 @@ def aggregate():
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     mean_values = {}
