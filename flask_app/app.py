@@ -24,13 +24,10 @@ def closest_songs(track_id, page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -43,13 +40,10 @@ def closest_songs(track_id, page_number):
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
     Args:
@@ -70,18 +64,28 @@ def closest_songs(track_id, page_number):
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     labels = []
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+        "popularity"
+    ]
     mean_values = vals.get("mean_values")
-    for v in mean_values:
+    for v in label_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
         labels.append([v, mean_values[v]["index"]])
     dist = (((df.loc[track_id] - df)**2).sum(axis=1)**0.5).sort_values()
@@ -105,13 +109,10 @@ def closest_songs_by_val(page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -124,13 +125,10 @@ def closest_songs_by_val(page_number):
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
         target (str-json): dictionary of target values
@@ -139,13 +137,9 @@ def closest_songs_by_val(page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
-            tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
     Args:
@@ -165,17 +159,27 @@ def closest_songs_by_val(page_number):
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     target = pd.read_json(json.dumps(vals.get("target")))
     labels = []
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+        "popularity"
+    ]
     mean_values = vals.get("mean_values")
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
@@ -204,13 +208,10 @@ def fit_user():
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         neg_songs (str-json): list of user disapproved song information as
@@ -221,13 +222,10 @@ def fit_user():
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -240,13 +238,10 @@ def fit_user():
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
     Args:
@@ -260,15 +255,12 @@ def fit_user():
             duration_ms (list): same as acousticness
             energy (list): same as acousticness
             instrumentalness (list): same as acousticness
-            key (list): same as acousticness
             liveness (list): same as acousticness
             loudness (list): same as acousticness
-            mode (list): same as acousticness
             speechiness (list): same as acousticness
             tempo (list): same as acousticness
             time_signature (list): same as acousticness
             valence (list): same as acousticness
-            popularity (list): same as acousticness
             intercept (float)"""
     vals = request.get_json()
     if vals.get("key") != SECRET_KEY:
@@ -284,17 +276,27 @@ def fit_user():
             "duration_ms",
             "energy",
             "instrumentalness",
-            "key",
             "liveness",
             "loudness",
-            "mode",
             "speechiness",
-            "tempo",
             "time_signature",
             "valence",
             "popularity"]
     X = X[cols]
     labels = []
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+        "popularity"
+    ]
     mean_values = vals.get("mean_values")
     for v in mean_values:
         X[v] = (X[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
@@ -326,13 +328,10 @@ def predict_user(page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -345,13 +344,10 @@ def predict_user(page_number):
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
         model (str-json):
@@ -362,13 +358,10 @@ def predict_user(page_number):
             duration_ms (list): same as acousticness
             energy (list): same as acousticness
             instrumentalness (list): same as acousticness
-            key (list): same as acousticness
             liveness (list): same as acousticness
             loudness (list): same as acousticness
-            mode (list): same as acousticness
             speechiness (list): same as acousticness
             tempo (list): same as acousticness
-            time_signature (list): same as acousticness
             valence (list): same as acousticness
             popularity (list): same as acousticness
             intercept (float)
@@ -389,16 +382,26 @@ def predict_user(page_number):
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     mean_values = vals.get("mean_values")
+    label_values = [
+        "acousticness",
+        "danceability",
+        "duration_ms",
+        "energy",
+        "instrumentalness",
+        "liveness",
+        "loudness",
+        "speechiness",
+        "tempo",
+        "valence",
+        "popularity"
+    ]
     for v in mean_values:
         df[v] = (df[v] - mean_values[v]["mean"]) / mean_values[v]["stddev"]
     model_vals = request.values.get("model")
@@ -433,13 +436,10 @@ def aggregate():
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
     Args:
@@ -457,13 +457,10 @@ def aggregate():
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness"""
     vals = request.get_json()
@@ -475,13 +472,10 @@ def aggregate():
              "duration_ms",
              "energy",
              "instrumentalness",
-             "key",
              "liveness",
              "loudness",
-             "mode",
              "speechiness",
              "tempo",
-             "time_signature",
              "valence",
              "popularity"]]
     mean_values = {}
