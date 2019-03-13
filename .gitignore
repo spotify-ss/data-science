@@ -1,0 +1,5 @@
+.vscode
+__pycache__
+flask-app/__pycache__
+Pipfile
+Pipfile.lock
