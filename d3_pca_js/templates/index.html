@@ -27,6 +27,12 @@ body {
   height: 28px;
   pointer-events: none;
 }
+
+.tooltip2 {
+  position: absolute;
+  height: 28px;
+  pointer-events: none;
+}
 </style>
 <body>
     <div class="radarChart"></div>
@@ -36,8 +42,8 @@ body {
 
 <script>
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 600 - margin.left - margin.right,
-    height = 600 - margin.top - margin.bottom;
+    width = 700 - margin.left - margin.right,
+    height = 700 - margin.top - margin.bottom;
 
 /* 
  * value accessor - returns the value to encode for a given data object.
@@ -122,8 +128,8 @@ d3.csv("/static/songs.csv", function(error, data) {
 //////////////////////// Set-Up ////////////////////////////// 
 ////////////////////////////////////////////////////////////// 
 var margin = {top: 100, right: 100, bottom: 100, left: 100},
-  width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
-  height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+  width = 400 - margin.left - margin.right,
+  height = 400 - margin.top - margin.bottom;
 
 var color = d3.scale.ordinal()
   .range(["#EDC951","#CC333F","#00A0B0"]);

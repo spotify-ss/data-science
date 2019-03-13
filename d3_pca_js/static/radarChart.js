@@ -30,7 +30,7 @@ function RadarChart(id, data, options) {
 	}//if
 	
 	//If the supplied maxValue is smaller than the actual one, replace by the max in the data
-	var maxValue = Math.max(cfg.maxValue, d3.max(data, function(i){return d3.max(i.map(function(o){return o.value;}))}));
+	var maxValue = 1.0;
 		
 	var allAxis = (data[0].map(function(i, j){return i.axis})),	//Names of each axis
 		total = allAxis.length,					//The number of different axes
@@ -122,15 +122,15 @@ function RadarChart(id, data, options) {
 		.style("stroke-width", "2px");
 
 	//Append the labels at each axis
-	axis.append("text")
-		.attr("class", "legend")
-		.style("font-size", "11px")
-		.attr("text-anchor", "middle")
-		.attr("dy", "0.35em")
-		.attr("x", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice*i - Math.PI/2); })
-		.attr("y", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice*i - Math.PI/2); })
-		.text(function(d){return d})
-		.call(wrap, cfg.wrapWidth);
+	// axis.append("text")
+	// 	.attr("class", "legend")
+	// 	.style("font-size", "11px")
+	// 	.attr("text-anchor", "middle")
+	// 	.attr("dy", "0.35em")
+	// 	.attr("x", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice*i - Math.PI/2); })
+	// 	.attr("y", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice*i - Math.PI/2); })
+	// 	.text(function(d){return d})
+	// 	.call(wrap, cfg.wrapWidth);
 
 	/////////////////////////////////////////////////////////
 	///////////// Draw the radar chart blobs ////////////////
@@ -205,6 +205,11 @@ function RadarChart(id, data, options) {
 		.data(data)
 		.enter().append("g")
 		.attr("class", "radarCircleWrapper");
+
+	var tooltip2 = d3.select("body").append("div")
+		.attr("class", "tooltip2")
+		.style("opacity", 0)
+		.style("background-color", "white");
 		
 	//Append a set of invisible circles on top for the mouseover pop-up
 	blobCircleWrapper.selectAll(".radarInvisibleCircle")
@@ -220,22 +225,20 @@ function RadarChart(id, data, options) {
 			newX =  parseFloat(d3.select(this).attr('cx')) - 10;
 			newY =  parseFloat(d3.select(this).attr('cy')) - 10;
 					
-			tooltip
-				.attr('x', newX)
-				.attr('y', newY)
-				.text(d.true_value)
+			tooltip2
+				.style("left", (d3.event.pageX + 5) + "px")
+				.style("top", (d3.event.pageY - 28) + "px")
+				.html("<b>" + d.axis + "</b><br>" + d.true_value);
+			tooltip2
 				.transition().duration(200)
-				.style('opacity', 1);
+				.style('opacity', 0.9);
 		})
 		.on("mouseout", function(){
-			tooltip.transition().duration(200)
+			tooltip2.transition().duration(200)
 				.style("opacity", 0);
 		});
 		
 	//Set up the small tooltip for when you hover over a circle
-	var tooltip = g.append("text")
-		.attr("class", "tooltip")
-		.style("opacity", 0);
 	
 	/////////////////////////////////////////////////////////
 	/////////////////// Helper Function /////////////////////
