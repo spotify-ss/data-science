@@ -24,13 +24,10 @@ def closest_songs(track_id, page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -43,13 +40,10 @@ def closest_songs(track_id, page_number):
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
     Args:
@@ -115,13 +109,10 @@ def closest_songs_by_val(page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -134,13 +125,10 @@ def closest_songs_by_val(page_number):
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
         target (str-json): dictionary of target values
@@ -149,13 +137,9 @@ def closest_songs_by_val(page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
-            tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
     Args:
@@ -224,13 +208,10 @@ def fit_user():
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         neg_songs (str-json): list of user disapproved song information as
@@ -241,13 +222,10 @@ def fit_user():
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -260,13 +238,10 @@ def fit_user():
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
     Args:
@@ -280,15 +255,12 @@ def fit_user():
             duration_ms (list): same as acousticness
             energy (list): same as acousticness
             instrumentalness (list): same as acousticness
-            key (list): same as acousticness
             liveness (list): same as acousticness
             loudness (list): same as acousticness
-            mode (list): same as acousticness
             speechiness (list): same as acousticness
             tempo (list): same as acousticness
             time_signature (list): same as acousticness
             valence (list): same as acousticness
-            popularity (list): same as acousticness
             intercept (float)"""
     vals = request.get_json()
     if vals.get("key") != SECRET_KEY:
@@ -356,13 +328,10 @@ def predict_user(page_number):
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
         mean_values (str-json): dictionary of precomputed aggregate song data
@@ -375,13 +344,10 @@ def predict_user(page_number):
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness
         model (str-json):
@@ -392,13 +358,10 @@ def predict_user(page_number):
             duration_ms (list): same as acousticness
             energy (list): same as acousticness
             instrumentalness (list): same as acousticness
-            key (list): same as acousticness
             liveness (list): same as acousticness
             loudness (list): same as acousticness
-            mode (list): same as acousticness
             speechiness (list): same as acousticness
             tempo (list): same as acousticness
-            time_signature (list): same as acousticness
             valence (list): same as acousticness
             popularity (list): same as acousticness
             intercept (float)
@@ -473,13 +436,10 @@ def aggregate():
             duration_ms (float)
             energy (float)
             instrumentalness (float)
-            key (float)
             liveness (float)
             loudness (float)
-            mode (float)
             speechiness (float)
             tempo (float)
-            time_signature (float)
             valence (float)
             popularity (float)
     Args:
@@ -497,13 +457,10 @@ def aggregate():
             duration_ms (dict): same format as acousticness
             energy (dict): same format as acousticness
             instrumentalness (dict): same format as acousticness
-            key (dict): same format as acousticness
             liveness (dict): same format as acousticness
             loudness (dict): same format as acousticness
-            mode (dict): same format as acousticness
             speechiness (dict): same format as acousticness
             tempo (dict): same format as acousticness
-            time_signature (dict): same format as acousticness
             valence (dict): same format as acousticness
             popularity (dict): same format as acousticness"""
     vals = request.get_json()
