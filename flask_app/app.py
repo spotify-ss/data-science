@@ -279,7 +279,7 @@ def fit_user():
             "liveness",
             "loudness",
             "speechiness",
-            "time_signature",
+            "tempo",
             "valence",
             "popularity"]
     X = X[cols]
